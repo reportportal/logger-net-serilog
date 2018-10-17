@@ -25,7 +25,7 @@ namespace ReportPortal.Serilog
         {
             LevelMap[LogEventLevel.Debug] = LogLevel.Debug;
             LevelMap[LogEventLevel.Error] = LogLevel.Error;
-            LevelMap[LogEventLevel.Fatal] = LogLevel.Error;
+            LevelMap[LogEventLevel.Fatal] = LogLevel.Fatal;
             LevelMap[LogEventLevel.Information] = LogLevel.Info;
             LevelMap[LogEventLevel.Verbose] = LogLevel.Trace;
             LevelMap[LogEventLevel.Warning] = LogLevel.Warning;
