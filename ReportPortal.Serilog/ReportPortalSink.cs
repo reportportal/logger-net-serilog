@@ -18,11 +18,7 @@ namespace ReportPortal.Serilog
         public ReportPortalSink(IFormatProvider formatProvider)
         {
             _formatProvider = formatProvider;
-        }
-        protected Dictionary<LogEventLevel, LogLevel> LevelMap = new Dictionary<LogEventLevel, LogLevel>();
 
-        public ReportPortalSink()
-        {
             LevelMap[LogEventLevel.Debug] = LogLevel.Debug;
             LevelMap[LogEventLevel.Error] = LogLevel.Error;
             LevelMap[LogEventLevel.Fatal] = LogLevel.Fatal;
@@ -31,10 +27,13 @@ namespace ReportPortal.Serilog
             LevelMap[LogEventLevel.Warning] = LogLevel.Warning;
         }
 
+        protected Dictionary<LogEventLevel, LogLevel> LevelMap = new Dictionary<LogEventLevel, LogLevel>();
+
         public void Emit(LogEvent logEvent)
         {
             var message = logEvent.RenderMessage(_formatProvider);
 
+            Console.WriteLine(logEvent.Level);
             var level = LogLevel.Info;
             if (LevelMap.ContainsKey(logEvent.Level))
             {
