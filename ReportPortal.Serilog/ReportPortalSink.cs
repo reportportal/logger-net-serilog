@@ -33,7 +33,6 @@ namespace ReportPortal.Serilog
         {
             var message = logEvent.RenderMessage(_formatProvider);
 
-            Console.WriteLine(logEvent.Level);
             var level = LogLevel.Info;
             if (LevelMap.ContainsKey(logEvent.Level))
             {
