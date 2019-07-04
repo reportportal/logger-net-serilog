@@ -39,7 +39,12 @@ namespace ReportPortal.Serilog
                 level = LevelMap[logEvent.Level];
             }
 
-            Bridge.LogMessage(level, message);
+            Log.Message(new Client.Requests.AddLogItemRequest
+            {
+                Level = level,
+                Time = logEvent.Timestamp.UtcDateTime,
+                Text = message
+            });
         }
     }
 }
