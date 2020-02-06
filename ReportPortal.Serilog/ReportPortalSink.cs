@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReportPortal.Client.Models;
+using ReportPortal.Client.Abstractions.Requests;
+using ReportPortal.Client.Abstractions.Responses;
 using ReportPortal.Shared;
 using Serilog.Core;
 using Serilog.Events;
@@ -39,7 +40,7 @@ namespace ReportPortal.Serilog
                 level = LevelMap[logEvent.Level];
             }
 
-            Log.Message(new Client.Requests.AddLogItemRequest
+            Log.Message(new CreateLogItemRequest
             {
                 Level = level,
                 Time = logEvent.Timestamp.UtcDateTime,
