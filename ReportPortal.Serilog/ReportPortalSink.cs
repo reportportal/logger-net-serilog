@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using ReportPortal.Client.Abstractions.Models;
 using ReportPortal.Client.Abstractions.Requests;
-using ReportPortal.Client.Abstractions.Responses;
 using ReportPortal.Shared;
 using Serilog.Core;
 using Serilog.Events;
