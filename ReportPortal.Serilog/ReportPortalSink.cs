@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReportPortal.Client.Abstractions.Models;
-using ReportPortal.Client.Abstractions.Requests;
 using ReportPortal.Shared;
+using ReportPortal.Shared.Execution.Logging;
 using Serilog.Core;
 using Serilog.Events;
 
@@ -20,32 +19,29 @@ namespace ReportPortal.Serilog
         {
             _formatProvider = formatProvider;
 
-            LevelMap[LogEventLevel.Debug] = LogLevel.Debug;
-            LevelMap[LogEventLevel.Error] = LogLevel.Error;
-            LevelMap[LogEventLevel.Fatal] = LogLevel.Fatal;
-            LevelMap[LogEventLevel.Information] = LogLevel.Info;
-            LevelMap[LogEventLevel.Verbose] = LogLevel.Trace;
-            LevelMap[LogEventLevel.Warning] = LogLevel.Warning;
+            LevelMap[LogEventLevel.Debug] = LogMessageLevel.Debug;
+            LevelMap[LogEventLevel.Error] = LogMessageLevel.Error;
+            LevelMap[LogEventLevel.Fatal] = LogMessageLevel.Fatal;
+            LevelMap[LogEventLevel.Information] = LogMessageLevel.Info;
+            LevelMap[LogEventLevel.Verbose] = LogMessageLevel.Trace;
+            LevelMap[LogEventLevel.Warning] = LogMessageLevel.Warning;
         }
 
-        protected Dictionary<LogEventLevel, LogLevel> LevelMap = new Dictionary<LogEventLevel, LogLevel>();
+        protected Dictionary<LogEventLevel, LogMessageLevel> LevelMap = new Dictionary<LogEventLevel, LogMessageLevel>();
 
         public void Emit(LogEvent logEvent)
         {
-            var message = logEvent.RenderMessage(_formatProvider);
-
-            var level = LogLevel.Info;
+            var level = LogMessageLevel.Info;
             if (LevelMap.ContainsKey(logEvent.Level))
             {
                 level = LevelMap[logEvent.Level];
             }
 
-            Log.ActiveScope.Message(new CreateLogItemRequest
-            {
-                Level = level,
-                Time = logEvent.Timestamp.UtcDateTime,
-                Text = message
-            });
+            var logMessage = new LogMessage(logEvent.RenderMessage(_formatProvider));
+            logMessage.Time = logEvent.Timestamp.UtcDateTime;
+            logMessage.Level = level;
+
+            Context.Current.Log.Message(logMessage);
         }
     }
 }
